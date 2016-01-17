@@ -1,6 +1,6 @@
 #!/usr/bin/python
-from abc import ABCMeta, abstractmethod
 from singleton import Singleton
+from abc import ABCMeta, abstractmethod
 import sqlite3
 
 class Database():
@@ -10,10 +10,6 @@ class Database():
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def get_connection(self):
-        pass
-
-    @abstractmethod
     def execute_query(self):
         pass
 
@@ -21,18 +17,31 @@ class Database():
 class SQLiteDatabase(Database):
     """SQLite implementation of Database class """
 
+    conn = None
+    
     def __init__(self):
-        print("SQLiteDatabase created")
-    
-    def _get_connection(self):
-        """Connect to the SQLite database and return the connection
-        object. Handle any connection errors. """
-        conn = sqlite3.connect('test.db')
-        return conn
-        
-    def execute_query(self, query):
         pass
-    
+        
+    def _open_connection(self, database):
+        """Connect to the SQLite database (if not cached) and return the
+        cursor object. Handle any connection errors. """
+        self.conn = sqlite3.connect(database)
+        return self.conn.cursor()
+
+    def _close_connection(self):
+        """Commit any outstanding transactions and close the current
+        connection """
+        if self.conn:
+            self.conn.commit()
+            self.conn.close()
+        
+    def execute_query(self, database, query):
+        """Execute the supplied query on the given database, return any
+        results, and handle any errors """
+        cursor = self._open_connection(database)
+        res = cursor.execute(query)
+        self._close_connection()
+        return res
 
 if __name__=="__main__":
     db = SQLiteDatabase.get_instance()

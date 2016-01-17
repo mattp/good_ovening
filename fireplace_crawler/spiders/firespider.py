@@ -1,11 +1,12 @@
+#!/usr/bin/python
 import re
 import string
 import urlparse
-import fireplace_crawler.config as conf
+import fireplace_crawler.spider_config as conf
+from fireplace_crawler.items import FireplaceCrawlerItem
 from scrapy.spiders import Spider
 from scrapy.linkextractors import LinkExtractor
 from scrapy.selector import Selector
-from fireplace_crawler.items import FireplaceCrawlerItem
 from scrapy.http import Request
 
 class FireSpider(Spider):
