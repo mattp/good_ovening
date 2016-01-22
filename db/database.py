@@ -41,9 +41,5 @@ class SQLiteDatabase(Database):
         cursor = self._open_connection(database)
         res = cursor.execute(query)
         self._close_connection()
-        return res
-
-if __name__=="__main__":
-    db = SQLiteDatabase.get_instance()
-    
+        return res    
     
