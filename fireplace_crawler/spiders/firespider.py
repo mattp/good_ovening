@@ -2,7 +2,8 @@
 import re
 import string
 import urlparse
-import fireplace_crawler.spider_config as conf
+import fireplace_crawler.spider_config as sconf
+import config as conf
 from fireplace_crawler.items import FireplaceCrawlerItem
 from scrapy.spiders import Spider
 from scrapy.linkextractors import LinkExtractor
@@ -15,28 +16,28 @@ class FireSpider(Spider):
     crawled_pages = []
     
     # Configure the name and domain of the Spider
-    name = conf.NAME
-    allowed_domains = conf.ALLOWED_DOMAINS
-    start_urls = conf.START_URLS
+    name = sconf.NAME
+    allowed_domains = sconf.ALLOWED_DOMAINS
+    start_urls = sconf.START_URLS
     # start_urls = ["http://m.finn.no/realestate/newbuildings/ad.html?finnkode=60494095&seg=homes&ref=fas"]
     
     def parse(self, response):
         """Recursively crawl from the starting URL and add all links"""        
         # Get the links
         hxs = Selector(response)
-        ad_links = hxs.xpath(conf.AD_LINK_XPATH).extract()
+        ad_links = hxs.xpath(sconf.AD_LINK_XPATH).extract()
         
         # Make a new Request for each link found on the starting page
         for ad_link in ad_links:
             item = FireplaceCrawlerItem()
-            item['ref_link'] = response.url
-            item['ad_link'] = urlparse.urljoin(response.url, ad_link)
+            item[conf.REF_LINK_KEY] = response.url
+            item[conf.AD_LINK_KEY] = urlparse.urljoin(response.url, ad_link)
             # "http://%s%s" % (self.allowed_domains[0], ad_link)
             yield Request(urlparse.urljoin(response.url, ad_link),
                           meta={'item':item}, callback=self.parse_listing)
 
         # Rerun for NEXT pages from the start
-        # search_links = hxs.xpath(conf.SEARCH_LINK_XPATH).extract()
+        # search_links = hxs.xpath(sconf.SEARCH_LINK_XPATH).extract()
         # for search_link in search_links:
         #     if ("page=" in search_link) and not (search_link in self.crawled_pages):
         #         self.crawled_pages.append(search_link)
@@ -50,16 +51,16 @@ class FireSpider(Spider):
         hxs = Selector(response)
 
         # Get the ad id from the URL
-        item['ad_id'] = re.search(conf.ADID_REGEX, response.url).group(0).split('=')[1]
+        item[conf.AD_ID_KEY] = re.search(sconf.ADID_REGEX, response.url).group(0).split('=')[1]
         
         # Get the geo coordinates from the map-link URL
-        item['lat'], item['lng'] = self._parse_geo_coordinates(hxs)
+        item[conf.LAT_KEY], item[conf.LNG_KEY] = self._parse_geo_coordinates(hxs)
                     
         # Get the header and data items from the descriptions
-        item['descriptions'] = self._filter_descriptions(self._parse_descriptions(hxs))
+        item[conf.DESCS_KEY] = self._filter_descriptions(self._parse_descriptions(hxs))
 
         # Get the image sources and labels
-        item['images'] = self._filter_images(self._parse_images(hxs))
+        item[conf.IMGS_KEY] = self._filter_images(self._parse_images(hxs))
         
         yield item
 
@@ -67,9 +68,9 @@ class FireSpider(Spider):
     def _parse_geo_coordinates(self, hxs):
         """Parse the geographical coordinates (lat,lng) using the given Selector"""
         try:
-            maplink = hxs.xpath(conf.MAP_LINK_XPATH).extract()[0]
-            lat = re.search(conf.GEO_REGEX % "lat", maplink).group(0).split('=')[1]
-            lng = re.search(conf.GEO_REGEX % "lng", maplink).group(0).split('=')[1]
+            maplink = hxs.xpath(sconf.MAP_LINK_XPATH).extract()[0]
+            lat = re.search(sconf.GEO_REGEX % "lat", maplink).group(0).split('=')[1]
+            lng = re.search(sconf.GEO_REGEX % "lng", maplink).group(0).split('=')[1]
         except:
             lat = "Unavailable"
             lng = "Unavailable"
@@ -78,13 +79,13 @@ class FireSpider(Spider):
     def _parse_descriptions(self, hxs):
         """Parse the listing descriptions (headers and content) using the
         given Selector """
-        listing_descs = hxs.xpath(conf.DESC_BASE_XPATH)
+        listing_descs = hxs.xpath(sconf.DESC_BASE_XPATH)
         descs = []
         desc_append = descs.append
         for lds in listing_descs:
             try:
-                raw_header = lds.xpath(conf.DESC_HEADER_XPATH).extract()[0]
-                raw_pars = lds.xpath(conf.DESC_PAR_XPATH).extract()
+                raw_header = lds.xpath(sconf.DESC_HEADER_XPATH).extract()[0]
+                raw_pars = lds.xpath(sconf.DESC_PAR_XPATH).extract()
                 desc_append({"header":raw_header.lstrip().rstrip(),
                              "data":[p.lstrip().rstrip() for p in raw_pars]})
             except:
@@ -93,12 +94,12 @@ class FireSpider(Spider):
 
     def _parse_images(self, hxs):
         """Parse the list of images to get sources and labels """
-        image_objs = hxs.xpath(conf.IMAGES_BASE_XPATH)
+        image_objs = hxs.xpath(sconf.IMAGES_BASE_XPATH)
         images = []
         images_append = images.append
         for img_obj in image_objs:
-            img_src = img_obj.xpath(conf.IMAGES_SRC_XPATH).extract()[0]
-            img_label = img_obj.xpath(conf.IMAGES_LABEL_XPATH).extract()[0]
+            img_src = img_obj.xpath(sconf.IMAGES_SRC_XPATH).extract()[0]
+            img_label = img_obj.xpath(sconf.IMAGES_LABEL_XPATH).extract()[0]
             images_append({"src":img_src, "label":img_label})
         return images
 

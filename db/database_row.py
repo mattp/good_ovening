@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import config as conf
 
 class DatabaseRow(object):
     """Simple container to store database row"""
@@ -22,16 +23,34 @@ class DatabaseRow(object):
             print("%s: %s" % (type(e).__name__, e))
             
 class OvenDatabaseRow(DatabaseRow):
-    """Immutable container to store and access extracted OVEN database row """
-
-    def __init__(self, oven_item):
+    """Container to store and access extracted OVEN database row """
+    
+    def __init__(self):
         super(OvenDatabaseRow, self).__init__()
-        self.oven_item = oven_item
         
-    def add_ad_id(self, ad_id):
-        """Add a single 'ad_id' item """
-        self.add_item("ad_id", ad_id)
+    def set_ad_id(self, ad_id):
+        """Add a single ad id item """
+        self.add_item(conf.AD_ID_KEY, ad_id)
 
     def get_ad_id(self):
-        """Return the ad_id associated with this row """
-        return self.get_item("ad_id")
+        """Return the ad id associated with this row """
+        return self.get_item(conf.AD_ID_KEY)        
+        
+    def set_ad_link(self, ad_link):
+        """Add a single ad link item """
+        self.add_item(conf.AD_LINK_KEY, ad_link)
+
+    def get_ad_link(self):
+        """Return the ad id associated with this row """
+        return self.get_item(conf.AD_LINK_KEY)        
+
+    def set_oven_type(self, oven_type):
+        """Add a single ad link item """
+        self.add_item(conf.OVEN_TYPE_KEY, oven_type)
+
+    def get_oven_type(self):
+        """Return the ad id associated with this row """
+        return self.get_item(conf.OVEN_TYPE_KEY)        
+
+    
+    

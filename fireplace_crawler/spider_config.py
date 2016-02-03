@@ -28,5 +28,3 @@ GEO_REGEX = "%s=[0-9]+.[0-9]+"
 # Regex for finding ad id from link
 ADID_REGEX = "finnkode=[0-9]+"
 
-# Known words for fireplace/oven
-FIREPLACE_WORDS = ["ovn", "peis", "vedfyring", "vedovn", "peisovn", "ildsted"]
