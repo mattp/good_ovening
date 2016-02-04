@@ -1,5 +1,7 @@
 #!/usr/bin/python
 import sys
+import re
+import string
 import config as conf
 from optparse import OptionParser
 from xml_parser import OvenXMLParser
@@ -29,16 +31,25 @@ def extract_database_rows(xml_filepath):
                 for desc in descriptions]
         desc_text = "\n".join(["%s\n%s" % (h, d) for h, d in zip(headers, data)])
         db_row.set_oven_type(extract_oven_type(desc_text))
-        lat = None
-        lng = None
+        db_row.set_lat(item.find(conf.LAT_KEY).text)
+        db_row.set_lng(item.find(conf.LNG_KEY).text)
         yield db_row
 
 def extract_oven_type(description):
     """Given a list of relevant descriptions for an ad listing, attempt to determine the
     correct oven type"""
-    desc_words = [w.lower() for w in description.split()]
-    print(desc_words)
-    return "OVEN"
+    sani_desc = description.lstrip().rstrip().lower()
+    punc_regex = re.compile('[%s]' % re.escape(string.punctuation))
+    sani_desc = punc_regex.sub(' ', sani_desc)
+    max_count = 0
+    max_word = "ovn"
+    for oven_word in conf.FIREPLACE_WORDS:
+        oven_count = sani_desc.count(oven_word)
+        print("'%s' has count: %d" % (oven_word, oven_count))
+        if oven_count >= max_count:
+            max_count = oven_count
+            max_word = oven_word
+    return max_word
     
         
 def insert_database_rows(rows):

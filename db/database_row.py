@@ -52,5 +52,20 @@ class OvenDatabaseRow(DatabaseRow):
         """Return the ad id associated with this row """
         return self.get_item(conf.OVEN_TYPE_KEY)        
 
-    
+    def set_lat(self, lat):
+        """Add a latitude item"""
+        self.add_item(conf.LAT_KEY, lat)
+
+    def get_lat(self):
+        """Return the latitude associated with this row """
+        return self.get_item(conf.LAT_KEY)
+
+    def set_lng(self, lng):
+        """Add a longitude item"""
+        self.add_item(conf.LNG_KEY, lng)
+
+    def get_lng(self):
+        """Return the longitude associated with this row """
+        return self.get_item(conf.LNG_KEY)
+
     
