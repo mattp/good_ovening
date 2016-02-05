@@ -39,7 +39,6 @@ class SQLiteDatabase(Database):
         """Execute the supplied query on the given database, return any
         results, and handle any errors """
         cursor = self._open_connection(database)
-        res = cursor.execute(query)
+        res = list(cursor.execute(query))
         self._close_connection()
-        return res    
-    
+        return res

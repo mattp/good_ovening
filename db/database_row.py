@@ -21,6 +21,13 @@ class DatabaseRow(object):
             return self.items[item_name]
         except AttributeError, e:
             print("%s: %s" % (type(e).__name__, e))
+
+    def to_string(self):
+        """Return a string representation of the items in this DatabaseRow """
+        out = " | ".join(["%s=%s" % (str(key), str(value))
+                          for key, value in self.items.iteritems()])
+        return out
+            
             
 class OvenDatabaseRow(DatabaseRow):
     """Container to store and access extracted OVEN database row """
@@ -67,5 +74,3 @@ class OvenDatabaseRow(DatabaseRow):
     def get_lng(self):
         """Return the longitude associated with this row """
         return self.get_item(conf.LNG_KEY)
-
-    

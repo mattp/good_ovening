@@ -6,6 +6,7 @@ import config as conf
 from optparse import OptionParser
 from xml_parser import OvenXMLParser
 from db.database_row import OvenDatabaseRow
+from db.database import SQLiteDatabase
 
 parser = OptionParser()
 parser.add_option("-i", "--input", dest="input_file", type="string",
@@ -45,18 +46,22 @@ def extract_oven_type(description):
     max_word = "ovn"
     for oven_word in conf.FIREPLACE_WORDS:
         oven_count = sani_desc.count(oven_word)
-        print("'%s' has count: %d" % (oven_word, oven_count))
         if oven_count >= max_count:
             max_count = oven_count
             max_word = oven_word
     return max_word
     
         
-def insert_database_rows(rows):
+def insert_database_rows(rows, db_name):
     """Insert any meaningful data from the given list of DatabaseRow
     objects into the database """
-    pass
-
+    db = SQLiteDatabase.get_instance()
+    for row in rows:
+        values = ",".join([row.get_ad_id(), "'%s'" % row.get_ad_link(),
+                           "'%s'" % row.get_oven_type(), "'%s'" % row.get_lat(),
+                           "'%s'" % row.get_lng()])
+        query = "REPLACE INTO %s VALUES(%s)" % (conf.LISTINGS_TABLE, values)
+        db.execute_query(db_name, query)
         
 if __name__=="__main__":
 
@@ -69,5 +74,5 @@ if __name__=="__main__":
     db_rows = extract_database_rows(opts.input_file)
 
     # Insert database rows
-    insert_database_row(db_rows)
+    insert_database_row(db_rows, conf.LISTINGS_TABLE)
     
