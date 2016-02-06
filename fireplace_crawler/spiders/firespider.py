@@ -32,16 +32,15 @@ class FireSpider(Spider):
             item = FireplaceCrawlerItem()
             item[conf.REF_LINK_KEY] = response.url
             item[conf.AD_LINK_KEY] = urlparse.urljoin(response.url, ad_link)
-            # "http://%s%s" % (self.allowed_domains[0], ad_link)
             yield Request(urlparse.urljoin(response.url, ad_link),
                           meta={'item':item}, callback=self.parse_listing)
 
         # Rerun for NEXT pages from the start
-        # search_links = hxs.xpath(sconf.SEARCH_LINK_XPATH).extract()
-        # for search_link in search_links:
-        #     if ("page=" in search_link) and not (search_link in self.crawled_pages):
-        #         self.crawled_pages.append(search_link)
-        #         yield Request(urlparse.urljoin(response.url, search_link), callback=self.parse)
+        search_links = hxs.xpath(sconf.SEARCH_LINK_XPATH).extract()
+        for search_link in search_links:
+            if ("page=" in search_link) and not (search_link in self.crawled_pages):
+                self.crawled_pages.append(search_link)
+                yield Request(urlparse.urljoin(response.url, search_link), callback=self.parse)
             
     def parse_listing(self, response):
         """Parse the desired data from the links found on the start page"""

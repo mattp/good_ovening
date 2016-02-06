@@ -10,7 +10,7 @@ COLLECT_HEADERS = ["oppvarming"]
 
 # Crawler search XPaths 
 SEARCH_LINK_XPATH = '//span[@class="hidelt768"]/a/@href'
-AD_LINK_XPATH = '//div[@class="flex-unit"]/a/@href'
+AD_LINK_XPATH = '//div[@class="flex-unit result-item"]/a/@href'
 
 # Listing scraper XPaths
 AD_ID_XPATH = '//span/@data-adid'

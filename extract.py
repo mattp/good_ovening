@@ -60,7 +60,7 @@ def insert_database_rows(rows, db_name):
         values = ",".join([row.get_ad_id(), "'%s'" % row.get_ad_link(),
                            "'%s'" % row.get_oven_type(), "'%s'" % row.get_lat(),
                            "'%s'" % row.get_lng()])
-        query = "REPLACE INTO %s VALUES(%s)" % (conf.LISTINGS_TABLE, values)
+        query = "INSERT OR IGNORE INTO %s VALUES(%s)" % (conf.LISTINGS_TABLE, values)
         db.execute_query(db_name, query)
         
 if __name__=="__main__":
@@ -74,5 +74,5 @@ if __name__=="__main__":
     db_rows = extract_database_rows(opts.input_file)
 
     # Insert database rows
-    insert_database_row(db_rows, conf.LISTINGS_TABLE)
+    insert_database_rows(db_rows, conf.DB_PATH)
     

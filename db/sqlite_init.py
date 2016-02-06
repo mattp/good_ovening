@@ -20,7 +20,7 @@ def init_listings_table(database):
     try:
         db.execute_query(database, init_query)
     except sqlite3.OperationalError, e:
-        print(e)
+        print("Database already exists. Skipping.")
     
 if __name__=="__main__":
     init_listings_table(conf.DB_PATH)
