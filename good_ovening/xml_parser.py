@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import xml.etree.ElementTree as e_tree
-import config as conf
+import good_ovening.config as conf
 
 class XMLParser(object):
     """Simple class for loading/storing an XML object from file"""

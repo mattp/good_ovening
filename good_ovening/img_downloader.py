@@ -3,8 +3,8 @@ import sys
 import os
 import urllib2
 import ntpath
-import config as conf
-from xml_parser import OvenXMLParser
+import good_ovening.config as conf
+from good_ovening.xml_parser import OvenXMLParser
 from optparse import OptionParser
 
 parser = OptionParser()

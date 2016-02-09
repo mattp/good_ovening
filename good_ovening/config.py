@@ -8,7 +8,7 @@ IMG_SRC_XPATH = "./item/images/value/src"
 ### Configuration for good_ovening.db package ###
 
 # Database names
-DB_PATH = "./db/good_ovening.db"
+DB_PATH = "good_ovening/db/good_ovening.db"
 LISTINGS_TABLE = "listings"
 
 # XML element keys

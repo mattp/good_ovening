@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import config as conf
+import good_ovening.config as conf
 
 class DatabaseRow(object):
     """Simple container to store database row"""

@@ -1,0 +1,24 @@
+------------------------
+Welcome to Good Ovening!
+------------------------
+
+Installation:
+
+   * This project is currently a simple source distribution on
+     GitHub. Check it out here:
+
+     > git clone https://github.com/mattp/good_ovening.git
+
+   * The web-crawling tool Scrapy (http://scrapy.org/) must be
+     pre-installed on your system:
+
+     > pip install scrapy
+
+Running good_ovening:
+
+   * Currently basic execution of the crawler is done using:
+
+     > ./run.sh
+
+   * The crawler will not run twice on the same day unless you remove
+     the corresponding XML file in the xml directory.

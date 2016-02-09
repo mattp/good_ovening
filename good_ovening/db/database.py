@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from singleton import Singleton
+from good_ovening.singleton import Singleton
 from abc import ABCMeta, abstractmethod
 import sqlite3
 

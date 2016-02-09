@@ -1,7 +1,7 @@
 #!/usr/bin/python
-import config as conf
+import good_ovening.config as conf
 import sqlite3
-from database import SQLiteDatabase
+from good_ovening.db.database import SQLiteDatabase
 
 def clear_table(database, table):
     """Clear the data in the given SQLite table """

@@ -2,11 +2,11 @@
 import sys
 import re
 import string
-import config as conf
+import good_ovening.config as conf
 from optparse import OptionParser
 from xml_parser import OvenXMLParser
-from db.database_row import OvenDatabaseRow
-from db.database import SQLiteDatabase
+from good_ovening.db.database_row import OvenDatabaseRow
+from good_ovening.db.database import SQLiteDatabase
 
 parser = OptionParser()
 parser.add_option("-i", "--input", dest="input_file", type="string",

@@ -17,14 +17,14 @@ fi
 
 # Initialize the database (if needed) and insert extracted elements
 echo -e "\nInitializing database..."
-python -m db.sqlite_init
+python -m good_ovening.db.sqlite_init
 echo -e "\nStarting database insertion..."
-python -m extract -i $XML_FILE
+python -m good_ovening.extract -i $XML_FILE
 echo "Database insertion complete."
 
 # Download images from links in XML
 echo -e "\nDownloading images..."
-python -m img_downloader -i $XML_FILE -o $IMG_OUTDIR
+python -m good_ovening.img_downloader -i $XML_FILE -o $IMG_OUTDIR
 echo "Images downloaded."
 
 # Clean up

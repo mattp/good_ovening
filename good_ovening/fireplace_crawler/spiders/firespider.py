@@ -2,9 +2,9 @@
 import re
 import string
 import urlparse
-import fireplace_crawler.spider_config as sconf
-import config as conf
-from fireplace_crawler.items import FireplaceCrawlerItem
+import good_ovening.fireplace_crawler.spider_config as sconf
+import good_ovening.config as conf
+from good_ovening.fireplace_crawler.items import FireplaceCrawlerItem
 from scrapy.spiders import Spider
 from scrapy.linkextractors import LinkExtractor
 from scrapy.selector import Selector

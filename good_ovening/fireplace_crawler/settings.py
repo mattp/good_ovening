@@ -11,8 +11,8 @@
 
 BOT_NAME = 'fireplace_crawler'
 
-SPIDER_MODULES = ['fireplace_crawler.spiders']
-NEWSPIDER_MODULE = 'fireplace_crawler.spiders'
+SPIDER_MODULES = ['good_ovening.fireplace_crawler.spiders']
+NEWSPIDER_MODULE = 'good_ovening.fireplace_crawler.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
