@@ -35,5 +35,5 @@ IMGS_KEY = "images"
 OVEN_TYPE_KEY = "oven_type"
 
 # Known words for fireplace/oven
-FIREPLACE_WORDS = ["ovn", "peis", u"åpen peis", "vedfyring", "vedovn",
-                   "ny vedovn", "peisovn", "ildsted"]
+FIREPLACE_WORDS = ["ovn", "peis", "vedfyring", "vedovn", "peisovn", "ildsted"]
+FIREPLACE_MODIFIERS = [u"åpen", "ny"]

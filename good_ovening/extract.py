@@ -43,15 +43,15 @@ def extract_oven_type(description):
     sani_desc = description.lstrip().rstrip().lower()
     punc_regex = re.compile('[%s]' % re.escape(string.punctuation))
     sani_desc = punc_regex.sub(' ', sani_desc)
-    max_count = 0
-    max_word = "ovn"
+    max_count = 1
+    max_word = "none"
     for oven_word in conf.FIREPLACE_WORDS:
-        oven_count = sani_desc.count(oven_word)
+        oven_regex = r'\b%s\b' % oven_word
+        oven_count = len(re.findall(oven_regex, sani_desc))
         if oven_count >= max_count:
             max_count = oven_count
             max_word = oven_word
-    return max_word
-    
+    return max_word    
         
 def insert_database_rows(rows, db_name):
     """Insert any meaningful data from the given list of DatabaseRow

@@ -4,7 +4,15 @@
 NAME = "fireplace_crawler"
 DOMAIN = "m.finn.no"
 ALLOWED_DOMAINS = [DOMAIN]
-START_URL_POSTFIXES = ["/realestate/homes/search.html", "/realestate/newbuildings/search.html", "/realestate/plots/search.html", "/realestate/leisuresale/search.html", "/realestate/abroad/search.html", "/realestate/leisureplots/search.html", "/r/feriehus-hytteutleie/search.html", "/realestate/lettings/search.html", "/realestate/wanted/search.html", "/realestate/businesssale/search.html", "/realestate/businessrent/search.html", "/realestate/businessplots/search.html", "/realestate/companyforsale/search.html"]
+START_URL_POSTFIXES = ["/realestate/homes/search.html",
+                       "/realestate/newbuildings/search.html",
+                       "/realestate/plots/search.html",
+                       "/realestate/leisuresale/search.html",
+                       "/realestate/leisureplots/search.html",
+                       "http://m.finn.no/r/feriehus-hytteutleie/search.html?location=0.25002&location=1.25002.20001", # Norway only
+                       "/r/feriehus-hytteutleie/search.html",
+                       "/realestate/lettings/search.html",
+                       "/realestate/companyforsale/search.html"]
 START_URLS = ["http://%s%s" % (DOMAIN, postfix) for postfix in START_URL_POSTFIXES]
 
 # Listing headers to keep content for
