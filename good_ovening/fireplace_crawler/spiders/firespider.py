@@ -19,8 +19,8 @@ class FireSpider(Spider):
     name = sconf.NAME
     allowed_domains = sconf.ALLOWED_DOMAINS
     start_urls = sconf.START_URLS
-    # start_urls = ["http://m.finn.no/realestate/newbuildings/ad.html?finnkode=32044514"]
-
+    # start_urls = ["http://m.finn.no/realestate/leisuresale/ad.html?finnkode=57367684"]
+    
     def parse(self, response):
         """Defer to the correct function for handling the page depending on it's type """
         search_page = re.search(sconf.SEARCH_URL, response.url)
@@ -95,8 +95,11 @@ class FireSpider(Spider):
         """Parse the geographical coordinates (lat,lng) using the given Selector"""
         try:
             maplink = hxs.xpath(sconf.MAP_LINK_XPATH).extract()[0]
+            print("MAP LINK: %s" % maplink)
             lat = re.search(sconf.GEO_REGEX % "lat", maplink).group(0).split('=')[1]
+            print("LATITUDE: %s" % lat)
             lng = re.search(sconf.GEO_REGEX % "lng", maplink).group(0).split('=')[1]
+            print("LONGITUDE: %s" % lng)
         except:
             lat = "Unavailable"
             lng = "Unavailable"

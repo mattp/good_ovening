@@ -4,7 +4,6 @@
 NAME = "fireplace_crawler"
 DOMAIN = "m.finn.no"
 ALLOWED_DOMAINS = [DOMAIN]
-# START_URLS = ["http://m.finn.no/realestate/homes/search.html"]
 START_URL_POSTFIXES = ["/realestate/homes/search.html", "/realestate/newbuildings/search.html", "/realestate/plots/search.html", "/realestate/leisuresale/search.html", "/realestate/abroad/search.html", "/realestate/leisureplots/search.html", "/r/feriehus-hytteutleie/search.html", "/realestate/lettings/search.html", "/realestate/wanted/search.html", "/realestate/businesssale/search.html", "/realestate/businessrent/search.html", "/realestate/businessplots/search.html", "/realestate/companyforsale/search.html"]
 START_URLS = ["http://%s%s" % (DOMAIN, postfix) for postfix in START_URL_POSTFIXES]
 
@@ -32,7 +31,4 @@ DESC_HEADER_XPATH = 'h2/text()'
 DESC_PAR_XPATH = 'p/text()'
 
 # Regex for finding lat./lng. coordinates from link
-GEO_REGEX = "%s=[0-9]+.[0-9]+"
-
-
-
+GEO_REGEX = "%s=-*[0-9]+.[0-9]+"
