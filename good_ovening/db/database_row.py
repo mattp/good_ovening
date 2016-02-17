@@ -51,6 +51,14 @@ class OvenDatabaseRow(DatabaseRow):
         """Return the ad id associated with this row """
         return self.get_item(conf.AD_LINK_KEY)        
 
+    def set_ref_link(self, ref_link):
+        """Add a reference link for this listing """
+        self.add_item(conf.REF_LINK_KEY, ref_link)
+    
+    def get_ref_link(self):
+        """Return the reference link associated with this ad lising """
+        return self.get_item(conf.REF_LINK_KEY)
+    
     def set_oven_type(self, oven_type):
         """Add a single ad link item """
         self.add_item(conf.OVEN_TYPE_KEY, oven_type)

@@ -19,11 +19,35 @@ class FireSpider(Spider):
     name = sconf.NAME
     allowed_domains = sconf.ALLOWED_DOMAINS
     start_urls = sconf.START_URLS
-    # start_urls = ["http://m.finn.no/realestate/newbuildings/ad.html?finnkode=60494095&seg=homes&ref=fas"]
-    
+    # start_urls = ["http://m.finn.no/realestate/newbuildings/ad.html?finnkode=32044514"]
+
     def parse(self, response):
+        """Defer to the correct function for handling the page depending on it's type """
+        search_page = re.search(sconf.SEARCH_URL, response.url)
+        ad_page = re.search(sconf.ADID_REGEX, response.url)
+        if search_page:
+            return self.parse_search_page(response)
+        elif ad_page:
+            return self.parse_listing(response)
+        else:
+            return None
+
+    def parse_browse_page(self, response):
+        """Crawl all search page links on the browse page """
+        # Get the links
+        hxs = Selector(response)
+        search_links = hxs.xpath(sconf.OUTER_SEARCH_LINK_XPATH)
+
+        # Make a new Request for each link found on the browse page
+        for search_link in search_links:
+            print("SEARCHING: %r" % search_link)
+            yield Request(urlparse.urljoin(response.url, search_link),
+                          callback=self.parse_search_page)
+        
+    def parse_search_page(self, response):
         """Recursively crawl from the starting URL and add all links"""        
         # Get the links
+        print("SEARCHING PAGE: %r" % response.url)
         hxs = Selector(response)
         ad_links = hxs.xpath(sconf.AD_LINK_XPATH).extract()
         
@@ -36,7 +60,7 @@ class FireSpider(Spider):
                           meta={'item':item}, callback=self.parse_listing)
 
         # Rerun for NEXT pages from the start
-        search_links = hxs.xpath(sconf.SEARCH_LINK_XPATH).extract()
+        search_links = hxs.xpath(sconf.INNER_SEARCH_LINK_XPATH).extract()
         for search_link in search_links:
             if ("page=" in search_link) and not (search_link in self.crawled_pages):
                 self.crawled_pages.append(search_link)
@@ -46,7 +70,10 @@ class FireSpider(Spider):
         """Parse the desired data from the links found on the start page"""
 
         # Re-get the item and create a corresponding Selector
-        item = response.request.meta['item']
+        if 'item' in response.request.meta:
+            item = response.request.meta['item']
+        else:
+            item = {}
         hxs = Selector(response)
 
         # Get the ad id from the URL

@@ -2,14 +2,23 @@
 
 # Required crawler configuration items
 NAME = "fireplace_crawler"
-ALLOWED_DOMAINS = ["m.finn.no"]
-START_URLS = ["http://m.finn.no/realestate/homes/search.html"]
+DOMAIN = "m.finn.no"
+ALLOWED_DOMAINS = [DOMAIN]
+# START_URLS = ["http://m.finn.no/realestate/homes/search.html"]
+START_URL_POSTFIXES = ["/realestate/homes/search.html", "/realestate/newbuildings/search.html", "/realestate/plots/search.html", "/realestate/leisuresale/search.html", "/realestate/abroad/search.html", "/realestate/leisureplots/search.html", "/r/feriehus-hytteutleie/search.html", "/realestate/lettings/search.html", "/realestate/wanted/search.html", "/realestate/businesssale/search.html", "/realestate/businessrent/search.html", "/realestate/businessplots/search.html", "/realestate/companyforsale/search.html"]
+START_URLS = ["http://%s%s" % (DOMAIN, postfix) for postfix in START_URL_POSTFIXES]
 
 # Listing headers to keep content for
 COLLECT_HEADERS = ["oppvarming"]
 
+# Regex for finding things from links
+BROWSE_URL = "/realestate/browse.html"
+SEARCH_URL = "/search.html"
+ADID_REGEX = "finnkode=[0-9]+"
+
 # Crawler search XPaths 
-SEARCH_LINK_XPATH = '//span[@class="hidelt768"]/a/@href'
+OUTER_SEARCH_LINK_XPATH = '//div[@data-quicklink="%s"]/div/div/nav/div/div/ul/li/a/@href' % BROWSE_URL
+INNER_SEARCH_LINK_XPATH = '//span[@class="hidelt768"]/a/@href'
 AD_LINK_XPATH = '//div[@class="flex-unit result-item"]/a/@href'
 
 # Listing scraper XPaths
@@ -25,6 +34,5 @@ DESC_PAR_XPATH = 'p/text()'
 # Regex for finding lat./lng. coordinates from link
 GEO_REGEX = "%s=[0-9]+.[0-9]+"
 
-# Regex for finding ad id from link
-ADID_REGEX = "finnkode=[0-9]+"
+
 

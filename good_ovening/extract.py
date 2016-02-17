@@ -26,6 +26,7 @@ def extract_database_rows(xml_filepath):
         db_row = OvenDatabaseRow()
         db_row.set_ad_id(item.find(conf.AD_ID_KEY).text)
         db_row.set_ad_link(item.find(conf.AD_LINK_KEY).text)
+        db_row.set_ref_link(item.find(conf.REF_LINK_KEY).text.split("?")[0])
         descriptions = item.find(conf.DESCS_KEY).findall("value")
         headers = [u'%s' % d.find("header").text for d in descriptions]
         data = ["\n".join([u'%s' % d.text for d in desc.find("data").findall("value")])
@@ -58,8 +59,9 @@ def insert_database_rows(rows, db_name):
     db = SQLiteDatabase.get_instance()
     for row in rows:
         values = ",".join([row.get_ad_id(), "'%s'" % row.get_ad_link(),
-                           "'%s'" % row.get_oven_type(), "'%s'" % row.get_lat(),
-                           "'%s'" % row.get_lng()])
+                           "'%s'" % row.get_ref_link(),
+                           "'%s'" % row.get_oven_type(),
+                           "'%s'" % row.get_lat(), "'%s'" % row.get_lng()])
         query = "INSERT OR IGNORE INTO %s VALUES(%s)" % (conf.LISTINGS_TABLE, values)
         db.execute_query(db_name, query)
         
