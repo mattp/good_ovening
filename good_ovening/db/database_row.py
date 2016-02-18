@@ -24,8 +24,7 @@ class DatabaseRow(object):
 
     def to_string(self):
         """Return a string representation of the items in this DatabaseRow """
-        out = " | ".join(["%s=%s" % (str(key), str(value))
-                          for key, value in self.items.iteritems()])
+        out = " | ".join(["%s=%s" % (key, value) for key, value in self.items.iteritems()])
         return out
             
             

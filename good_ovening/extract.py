@@ -40,17 +40,32 @@ def extract_database_rows(xml_filepath):
 def extract_oven_type(description):
     """Given a list of relevant descriptions for an ad listing, attempt to determine the
     correct oven type"""
+
+    # Sanitize the input text
     sani_desc = description.lstrip().rstrip().lower()
     punc_regex = re.compile('[%s]' % re.escape(string.punctuation))
     sani_desc = punc_regex.sub(' ', sani_desc)
+    
+    # Find the correct oven type
     max_count = 1
+    max_priority = 0
     max_word = "none"
-    for oven_word in conf.FIREPLACE_WORDS:
+    for oven_word, priority in conf.FIREPLACE_WORDS.iteritems():
         oven_regex = r'\b%s\b' % oven_word
         oven_count = len(re.findall(oven_regex, sani_desc))
-        if oven_count >= max_count:
+        update = (priority > max_priority and oven_count > 0) or \
+                 (priority == max_priority and oven_count > max_count)
+        if update:
             max_count = oven_count
+            max_priority = priority
             max_word = oven_word
+            
+    # Check if any modifiers appear for that word
+    if max_word != "none":
+        for modifier in conf.FIREPLACE_MODIFIERS:
+            mod_regex = r'%s\W%s' % (modifier, max_word)
+            if re.search(mod_regex, sani_desc):
+                max_word = "%s %s" % (modifier, max_word)
     return max_word    
         
 def insert_database_rows(rows, db_name):
