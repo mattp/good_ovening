@@ -77,7 +77,7 @@ def insert_database_rows(rows, db_name):
                            "'%s'" % row.get_ref_link(),
                            "'%s'" % row.get_oven_type(),
                            "'%s'" % row.get_lat(), "'%s'" % row.get_lng()])
-        query = "INSERT OR IGNORE INTO %s VALUES(%s)" % (conf.LISTINGS_TABLE, values)
+        query = "REPLACE INTO %s VALUES(%s)" % (conf.LISTINGS_TABLE, values)
         db.execute_query(db_name, query)
         
 if __name__=="__main__":
