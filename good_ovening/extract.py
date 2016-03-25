@@ -26,7 +26,8 @@ def extract_database_rows(xml_filepath):
         db_row = OvenDatabaseRow()
         db_row.set_ad_id(item.find(conf.AD_ID_KEY).text)
         db_row.set_ad_link(item.find(conf.AD_LINK_KEY).text)
-        db_row.set_ref_link(item.find(conf.REF_LINK_KEY).text.split("?")[0])
+        origin_page = extract_origin_page(item.find(conf.REF_LINK_KEY).text.split("?")[0])
+        db_row.set_origin_page(origin_page)
         descriptions = item.find(conf.DESCS_KEY).findall("value")
         headers = [u'%s' % d.find("header").text for d in descriptions]
         data = ["\n".join([u'%s' % d.text for d in desc.find("data").findall("value")])
@@ -37,6 +38,17 @@ def extract_database_rows(xml_filepath):
         db_row.set_lng(item.find(conf.LNG_KEY).text)
         yield db_row
 
+def extract_origin_page(ref_link):
+    """Get the name of the origin page from the reference link """
+    sani_link = ref_link.replace("http://", "")
+    sani_link = re.sub(r"\?.*", "", sani_link)
+    link_split = sani_link.split('/')
+    if "search.html" in link_split:
+        origin_page = link_split[link_split.index("search.html") - 1]
+    else:
+        origin_page = "NONE"
+    return origin_page
+        
 def extract_oven_type(description):
     """Given a list of relevant descriptions for an ad listing, attempt to determine the
     correct oven type"""
@@ -74,7 +86,7 @@ def insert_database_rows(rows, db_name):
     db = SQLiteDatabase.get_instance()
     for row in rows:
         values = ",".join([row.get_ad_id(), "'%s'" % row.get_ad_link(),
-                           "'%s'" % row.get_ref_link(),
+                           "'%s'" % row.get_origin_page(),
                            "'%s'" % row.get_oven_type(),
                            "'%s'" % row.get_lat(), "'%s'" % row.get_lng()])
         query = "REPLACE INTO %s VALUES(%s)" % (conf.LISTINGS_TABLE, values)

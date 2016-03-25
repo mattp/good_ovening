@@ -1,11 +1,12 @@
 #!/usr/bin/python
 import good_ovening.config as conf
+from collections import OrderedDict
 
 class DatabaseRow(object):
     """Simple container to store database row"""
 
     def __init__(self):
-        self.items = {}
+        self.items = OrderedDict()
         
     def add_item(self, item_name, item):
         """Add an item to the dictionary (warn if exists)"""
@@ -50,13 +51,13 @@ class OvenDatabaseRow(DatabaseRow):
         """Return the ad id associated with this row """
         return self.get_item(conf.AD_LINK_KEY)        
 
-    def set_ref_link(self, ref_link):
+    def set_origin_page(self, origin_page):
         """Add a reference link for this listing """
-        self.add_item(conf.REF_LINK_KEY, ref_link)
+        self.add_item(conf.ORIGIN_PAGE_KEY, origin_page)
     
-    def get_ref_link(self):
+    def get_origin_page(self):
         """Return the reference link associated with this ad lising """
-        return self.get_item(conf.REF_LINK_KEY)
+        return self.get_item(conf.ORIGIN_PAGE_KEY)
     
     def set_oven_type(self, oven_type):
         """Add a single ad link item """

@@ -26,7 +26,7 @@ ADID_REGEX = "finnkode=[0-9]+"
 # Crawler search XPaths 
 OUTER_SEARCH_LINK_XPATH = '//div[@data-quicklink="%s"]/div/div/nav/div/div/ul/li/a/@href' % BROWSE_URL
 INNER_SEARCH_LINK_XPATH = '//span[@class="hidelt768"]/a/@href'
-AD_LINK_XPATH = '//div[@class="flex-unit result-item"]/a/@href'
+AD_LINK_XPATH = '//div[@class="unit flex align-items-stretch result-item"]/a/@href'
 
 # Listing scraper XPaths
 AD_ID_XPATH = '//span/@data-adid'

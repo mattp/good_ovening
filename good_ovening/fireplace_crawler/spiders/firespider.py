@@ -19,7 +19,7 @@ class FireSpider(Spider):
     name = sconf.NAME
     allowed_domains = sconf.ALLOWED_DOMAINS
     start_urls = sconf.START_URLS
-    # start_urls = ["http://m.finn.no/realestate/leisuresale/ad.html?finnkode=57367684"]
+    # start_urls = ["http://m.finn.no/realestate/homes/search.html"]
     
     def parse(self, response):
         """Defer to the correct function for handling the page depending on it's type """
@@ -40,17 +40,17 @@ class FireSpider(Spider):
 
         # Make a new Request for each link found on the browse page
         for search_link in search_links:
-            print("SEARCHING: %r" % search_link)
+            print("CRAWLING BROWSE PAGE: %r" % search_link)
             yield Request(urlparse.urljoin(response.url, search_link),
                           callback=self.parse_search_page)
         
     def parse_search_page(self, response):
         """Recursively crawl from the starting URL and add all links"""        
         # Get the links
-        print("SEARCHING PAGE: %r" % response.url)
+        print("CRAWLING SEARCH PAGE: %r" % response.url)
         hxs = Selector(response)
         ad_links = hxs.xpath(sconf.AD_LINK_XPATH).extract()
-        
+                
         # Make a new Request for each link found on the starting page
         for ad_link in ad_links:
             item = FireplaceCrawlerItem()
@@ -74,7 +74,9 @@ class FireSpider(Spider):
             item = response.request.meta['item']
         else:
             item = {}
+
         hxs = Selector(response)
+        print("CRAWLING AD PAGE: %r" % response.url)
 
         # Get the ad id from the URL
         item[conf.AD_ID_KEY] = re.search(sconf.ADID_REGEX, response.url).group(0).split('=')[1]

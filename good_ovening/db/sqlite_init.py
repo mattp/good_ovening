@@ -3,15 +3,9 @@ import good_ovening.config as conf
 import sqlite3
 from good_ovening.db.database import SQLiteDatabase
 
-def clear_table(database, table):
-    """Clear the data in the given SQLite table """
-    db = SQLiteDatabase.get_instance()
-    query = "DELETE FROM %s" % table
-    db.execute_query(database, query)
 
 def init_listings_table(database):
-    """Initialize a table for storing listings data, using the given table
-    name """
+    """Initialize a table for storing listings data, using the given table name """
     db = SQLiteDatabase.get_instance()
     cols = ",".join(["%s %s" % (key, val) for key, val in conf.LISTINGS_SCHEMA.iteritems()])
     init_query = "CREATE TABLE %s (%s)" % (conf.LISTINGS_TABLE, cols)
