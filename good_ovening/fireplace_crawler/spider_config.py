@@ -16,7 +16,7 @@ START_URL_POSTFIXES = ["/realestate/homes/search.html",
 START_URLS = ["http://%s%s" % (DOMAIN, postfix) for postfix in START_URL_POSTFIXES]
 
 # Listing headers to keep content for
-COLLECT_HEADERS = ["oppvarming"]
+# COLLECT_HEADERS = ["oppvarming"]
 
 # Regex for finding things from links
 BROWSE_URL = "/realestate/browse.html"
@@ -35,6 +35,7 @@ IMAGES_SRC_XPATH = '@data-src'
 IMAGES_LABEL_XPATH = '@aria-label'
 MAP_LINK_XPATH = '//p[@class="maplink"]/a/@href'
 DESC_BASE_XPATH = '//div[@class="mbl object-description"]'
+DESC_BASE_XPATH_ALT = '//div[@class="mod"]/div[@class="inner"]/div[@class="bd"]'
 DESC_HEADER_XPATH = 'h2/text()'
 DESC_PAR_XPATH = 'p/text()'
 

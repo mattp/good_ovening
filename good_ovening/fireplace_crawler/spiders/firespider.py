@@ -19,7 +19,7 @@ class FireSpider(Spider):
     name = sconf.NAME
     allowed_domains = sconf.ALLOWED_DOMAINS
     start_urls = sconf.START_URLS
-    # start_urls = ["http://m.finn.no/realestate/homes/search.html"]
+    # start_urls = ["http://m.finn.no/r/feriehus-hytteutleie/search.html?location=0.25002&location=1.25002.20001"]
     
     def parse(self, response):
         """Defer to the correct function for handling the page depending on it's type """
@@ -110,17 +110,22 @@ class FireSpider(Spider):
     def _parse_descriptions(self, hxs):
         """Parse the listing descriptions (headers and content) using the
         given Selector """
-        listing_descs = hxs.xpath(sconf.DESC_BASE_XPATH)
+        listing_descs = hxs.xpath(sconf.DESC_BASE_XPATH) + hxs.xpath(sconf.DESC_BASE_XPATH_ALT)
         descs = []
         desc_append = descs.append
         for lds in listing_descs:
             try:
-                raw_header = lds.xpath(sconf.DESC_HEADER_XPATH).extract()[0]
+                raw_header = lds.xpath(sconf.DESC_HEADER_XPATH).extract()
+                if len(raw_header) > 0:
+                    header = raw_header[0].lstrip().rstrip()
+                else:
+                    header = "NOT FOUND"
                 raw_pars = lds.xpath(sconf.DESC_PAR_XPATH).extract()
-                desc_append({"header":raw_header.lstrip().rstrip(),
-                             "data":[p.lstrip().rstrip() for p in raw_pars]})
-            except:
+                data = [p.lstrip().rstrip() for p in raw_pars]
+                desc_append({"header":header, "data":data})
+            except Exception, e:
                 print("Couldn't parse listing description")
+                print(e)
         return descs
 
     def _parse_images(self, hxs):

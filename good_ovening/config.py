@@ -84,13 +84,11 @@ IMGS_KEY = "images"
 OVEN_TYPE_KEY = "oven_type"
 
 # Known words for fireplace/oven (with priority values)
-FIREPLACE_WORDS = {"ovn":1, "peis":2, "vedfyring":2, "vedovn":2,
-                   "peisovn":2, "ildsted":2, "stålpeis":2, "kamin":2,
-                   "vedkamin":2, "ovner":2, "klebersteinovn":2,
-                   "vedfyr":2, "elementpeis":2, "tegnsteinspeis":2,
-                   "peis/vedovn":2, "pelletsovn":2, "rundbrenner":2,
-                   "ildsteder":2, "ved/koksovn":2, "støpejernsovn":2,
-                   "kakkelovn":2, "vedpeis":2, "peiser":2,
+FIREPLACE_WORDS = {"ovn":1, "peis":2, "vedfyring":2, "vedovn":2, "peisovn":2,
+                   "ildsted":2, "stålpeis":2, "kamin":2, "vedkamin":2, "ovner":2,
+                   "klebersteinovn":2, "vedfyr":2, "elementpeis":2, "tegnsteinspeis":2,
+                   "pelletsovn":2, "rundbrenner":2, "ildsteder":2, "koksovn":2,
+                   "støpejernsovn":2, "kakkelovn":2, "vedpeis":2, "peiser":2,
                    "rundovn":2}
 
 FIREPLACE_MODIFIERS = ["moderne", "eldre", "nydelig", "åpen", "ny", "nyere", "murt"]
