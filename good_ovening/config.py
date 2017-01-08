@@ -33,10 +33,11 @@ class VersionConfig(object):
     def get_schema_dict(self, schema_name):
         """Return the schema dict representing the given schema name (if it exists) """
         assert schema_name in self.schemas, "Schema %r not present in schemas" % schema_name
-
+        return self.schemas[schema_name]
+        
     def schema_name_gen(self):
         """Yield all schema names for this VersionConfig """
-        for schema_name in schemas:
+        for schema_name in self.schemas:
             yield schema_name
 
     def has_schema(self, schema_name):
@@ -89,6 +90,6 @@ FIREPLACE_WORDS = {"ovn":1, "peis":2, "vedfyring":2, "vedovn":2, "peisovn":2,
                    "klebersteinovn":2, "vedfyr":2, "elementpeis":2, "tegnsteinspeis":2,
                    "pelletsovn":2, "rundbrenner":2, "ildsteder":2, "koksovn":2,
                    "støpejernsovn":2, "kakkelovn":2, "vedpeis":2, "peiser":2,
-                   "rundovn":2}
+                   "rundovn":2, "fjernvarme":2, "varmepumpe":2, "sentralvarmeanlegg":2}
 
 FIREPLACE_MODIFIERS = ["moderne", "eldre", "nydelig", "åpen", "ny", "nyere", "murt"]

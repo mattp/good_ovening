@@ -16,10 +16,10 @@ class MigrationHandler(object):
     
     def migrate_db(self, database, v_origin, v_dest):
         """Map the good_ovening database from the origin to destination versions """
-        assert v_origin in conf.VERSION_CONFIGS, "Invalid origin version %r" % v_origin
-        assert v_dest in conf.VERSION_CONFIGS, "Invalid destination version %r" % v_dest
-        orig_version_config = conf.VERSION_CONFIGS[v_origin]
-        dest_version_config = conf.VERSION_CONFIGS[v_dest]
+        assert v_origin in conf.VERSIONS_CONFIGS, "Invalid origin version %r" % v_origin
+        assert v_dest in conf.VERSIONS_CONFIGS, "Invalid destination version %r" % v_dest
+        orig_version_config = conf.VERSIONS_CONFIGS[v_origin]
+        dest_version_config = conf.VERSIONS_CONFIGS[v_dest]
         # Handle pre-existing tables
         for table in orig_version_config.schema_name_gen():
             orig_schema_dict = orig_version_config.get_schema_dict(table)
