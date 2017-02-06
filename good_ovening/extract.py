@@ -38,7 +38,7 @@ def extract_database_rows(xml_filepath):
         db_row.set_lat(item.find(conf.LAT_KEY).text)
         db_row.set_lng(item.find(conf.LNG_KEY).text)
         overview_details = item.find(conf.OVERVIEW_DETAILS_KEY)
-        if overview_details is not None:
+        if overview_details is None:
             overview_details = []
         floor_size = extract_floor_size(overview_details)
         db_row.set_floor_size(floor_size)
