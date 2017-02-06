@@ -96,7 +96,7 @@ IMGS_KEY = "images"
 
 # Other keys
 OVEN_TYPE_KEY = "oven_type"
-FLOOR_SIZE_KEY = "floor_size"
+FLOOR_SIZE_KEY = "floor_space"
 FLOOR_SIZE_OVERVIEW_ITEM = u"primærrom"
 
 # Known words for fireplace/oven (with priority values)
