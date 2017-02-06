@@ -82,3 +82,11 @@ class OvenDatabaseRow(DatabaseRow):
     def get_lng(self):
         """Return the longitude associated with this row """
         return self.get_item(conf.LNG_KEY)
+
+    def set_floor_size(self, floor_size):
+        """Add a floor-size item """
+        self.add_item(conf.FLOOR_SIZE_KEY, floor_size)
+        
+    def get_floor_size(self):
+        """Return the floor size associated with this row """
+        return self.get_item(conf.FLOOR_SIZE_KEY)

@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -- coding: utf-8 --
 import sys
 import re
 import string
@@ -36,6 +37,11 @@ def extract_database_rows(xml_filepath):
         db_row.set_oven_type(extract_oven_type(desc_text))
         db_row.set_lat(item.find(conf.LAT_KEY).text)
         db_row.set_lng(item.find(conf.LNG_KEY).text)
+        overview_details = item.find(conf.OVERVIEW_DETAILS_KEY)
+        if overview_details not None:
+            overview_details = []
+        floor_size = extract_floor_size(overview_details)
+        db_row.set_floor_size(floor_size)
         yield db_row
 
 def extract_origin_page(ref_link):
@@ -79,7 +85,15 @@ def extract_oven_type(description):
             if re.search(mod_regex, sani_desc):
                 max_word = "%s %s" % (modifier, max_word)
     return max_word    
-        
+
+def extract_floor_size(overview_details):
+    """Get the floor size from the list of overview items """
+    for od in overview_details:
+        overview_item_key = unicode(od[0].text.lower())
+        if (overview_item_key == conf.FLOOR_SIZE_OVERVIEW_ITEM):
+            floor_size = od[1].text.strip().split(' ')[0]
+            return floor_size
+    
 def insert_database_rows(rows, db_name):
     """Insert any meaningful data from the given list of DatabaseRow
     objects into the database """
@@ -88,7 +102,9 @@ def insert_database_rows(rows, db_name):
         values = ",".join([row.get_ad_id(), "'%s'" % row.get_ad_link(),
                            "'%s'" % row.get_origin_page(),
                            "'%s'" % row.get_oven_type(),
-                           "'%s'" % row.get_lat(), "'%s'" % row.get_lng()])
+                           "'%s'" % row.get_lat(),
+                           "'%s'" % row.get_lng(),
+                           "'%s'" % row.get_floor_size()])
         query = "REPLACE INTO %s VALUES(%s)" % (conf.LISTINGS_TABLE, values)
         db.execute_query(db_name, query)
         

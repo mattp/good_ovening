@@ -58,18 +58,30 @@ LISTINGS_SCHEMA_002 = OrderedDict([
     ("oven_type", "VARCHAR(20)"),
     ("lat", "VARCHAR(10)"),
     ("lng", "VARCHAR(10)")])
+LISTINGS_SCHEMA_003 = OrderedDict([
+    ("ad_id", "INTEGER PRIMARY KEY"),
+    ("ad_link", "VARCHAR(250)"),
+    ("origin_page", "VARCHAR(30)"),
+    ("oven_type", "VARCHAR(20)"),
+    ("lat", "VARCHAR(10)"),
+    ("lng", "VARCHAR(10)"),
+    ("floor_space", "INTEGER")])
+
 COLUMN_UPDATES = {"ref_link":"origin_page"}
 VERSION_CONFIG_001 = VersionConfig("0.0.1")
 VERSION_CONFIG_001.add_schema_dict("listings", LISTINGS_SCHEMA_001)
 VERSION_CONFIG_002 = VersionConfig("0.0.2")
-VERSION_CONFIG_001.add_schema_dict("listings", LISTINGS_SCHEMA_002)
-VERSIONS_CONFIGS = {"0.0.1":VERSION_CONFIG_001, "0.0.2":VERSION_CONFIG_002}
+VERSION_CONFIG_002.add_schema_dict("listings", LISTINGS_SCHEMA_002)
+VERSION_CONFIG_003 = VersionConfig("0.0.3")
+VERSION_CONFIG_003.add_schema_dict("listings", LISTINGS_SCHEMA_003)
+VERSIONS_CONFIGS = {"0.0.1":VERSION_CONFIG_001, "0.0.2":VERSION_CONFIG_002,
+                    "0.0.3":VERSION_CONFIG_003 }
 # VERSION_SCHEMAS = {"0.0.1":OrderedDict([("listings", LISTINGS_SCHEMA_001)]),
 #                   "0.0.2":OrderedDict([("listings", LISTINGS_SCHEMA_002)])}
 
 
 # Current database table schemas
-LISTINGS_SCHEMA = LISTINGS_SCHEMA_002
+LISTINGS_SCHEMA = LISTINGS_SCHEMA_003
 
 # XML element keys
 REF_LINK_KEY = "ref_link"
@@ -78,11 +90,14 @@ AD_LINK_KEY = "ad_link"
 AD_ID_KEY = "ad_id"
 LAT_KEY = "lat"
 LNG_KEY = "lng"
+OVERVIEW_DETAILS_KEY = "overview_details"
 DESCS_KEY = "descriptions"
 IMGS_KEY = "images"
 
 # Other keys
 OVEN_TYPE_KEY = "oven_type"
+FLOOR_SIZE_KEY = "floor_size"
+FLOOR_SIZE_OVERVIEW_ITEM = u"primærrom"
 
 # Known words for fireplace/oven (with priority values)
 FIREPLACE_WORDS = {"ovn":1, "peis":2, "vedfyring":2, "vedovn":2, "peisovn":2,

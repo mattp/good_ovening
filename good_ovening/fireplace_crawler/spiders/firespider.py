@@ -18,8 +18,9 @@ class FireSpider(Spider):
     # Configure the name and domain of the Spider
     name = sconf.NAME
     allowed_domains = sconf.ALLOWED_DOMAINS
-    start_urls = sconf.START_URLS
-    # start_urls = ["http://m.finn.no/r/feriehus-hytteutleie/search.html?location=0.25002&location=1.25002.20001"]
+    # start_urls = sconf.START_URLS
+    # start_urls = ["https://m.finn.no/realestate/lettings/ad.html?finnkode=78901109"]
+    start_urls = ["https://m.finn.no/realestate/homes/search.html"]
     
     def parse(self, response):
         """Defer to the correct function for handling the page depending on it's type """
@@ -80,6 +81,9 @@ class FireSpider(Spider):
 
         # Get the ad id from the URL
         item[conf.AD_ID_KEY] = re.search(sconf.ADID_REGEX, response.url).group(0).split('=')[1]
+
+        # Get the listing overview items
+        item[conf.OVERVIEW_DETAILS_KEY] = self._parse_overview_details(hxs)
         
         # Get the geo coordinates from the map-link URL
         item[conf.LAT_KEY], item[conf.LNG_KEY] = self._parse_geo_coordinates(hxs)
@@ -92,7 +96,13 @@ class FireSpider(Spider):
         
         yield item
 
-
+    def _parse_overview_details(self, hxs):
+        """Parse the overview details list using the given selector"""
+        overview_keys = hxs.xpath(sconf.OVERVIEW_KEYS_XPATH).extract()
+        overview_vals = hxs.xpath(sconf.OVERVIEW_VALS_XPATH).extract()
+        overview_details = zip(overview_keys, overview_vals)
+        return overview_details
+        
     def _parse_geo_coordinates(self, hxs):
         """Parse the geographical coordinates (lat,lng) using the given Selector"""
         try:

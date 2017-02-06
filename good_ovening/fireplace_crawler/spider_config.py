@@ -38,6 +38,9 @@ DESC_BASE_XPATH = '//div[@class="mbl object-description"]'
 DESC_BASE_XPATH_ALT = '//div[@class="mod"]/div[@class="inner"]/div[@class="bd"]'
 DESC_HEADER_XPATH = 'h2/text()'
 DESC_PAR_XPATH = 'p/text()'
+OVERVIEW_BASE_XPATH = '//dl[@class="r-prl mhn multicol col-count1upto640 col-count2upto768 col-count1upto990 col-count2from990"]'
+OVERVIEW_KEYS_XPATH = '//%s/dt/text()' % OVERVIEW_BASE_XPATH
+OVERVIEW_VALS_XPATH = '//%s/dd/text()' % OVERVIEW_BASE_XPATH
 
 # Regex for finding lat./lng. coordinates from link
 GEO_REGEX = "%s=-*[0-9]+.[0-9]+"

@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name = "good_ovening",
-    version = "0.0.1",
+    version = "0.0.3",
     author = "Matthew Pierce",
     author_email = "piercemattd@gmail.com",
     description = (""" A web-crawler for extracting oven types and locations from

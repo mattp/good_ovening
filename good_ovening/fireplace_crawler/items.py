@@ -17,3 +17,4 @@ class FireplaceCrawlerItem(scrapy.Item):
     images = scrapy.Field()
     lat = scrapy.Field()
     lng = scrapy.Field()
+    overview_details = scrapy.Field()
