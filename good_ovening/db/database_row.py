@@ -90,3 +90,11 @@ class OvenDatabaseRow(DatabaseRow):
     def get_floor_size(self):
         """Return the floor size associated with this row """
         return self.get_item(conf.FLOOR_SIZE_KEY)
+
+    def set_house_type(self, house_type):
+        """Add a house-type item """
+        self.add_item(conf.HOUSE_TYPE_KEY, house_type)
+    
+    def get_house_type(self):
+        """Return the house type associated with this row """
+        return self.get_item(conf.HOUSE_TYPE_KEY)

@@ -42,6 +42,8 @@ def extract_database_rows(xml_filepath):
             overview_details = []
         floor_size = extract_floor_size(overview_details)
         db_row.set_floor_size(floor_size)
+        house_type = extract_house_type(overview_details)
+        db_row.set_house_type(house_type)
         yield db_row
 
 def extract_origin_page(ref_link):
@@ -94,6 +96,14 @@ def extract_floor_size(overview_details):
             floor_size = od[1].text.strip().split(' ')[0]
             return floor_size
     
+def extract_house_type(overview_details):
+    """Get the house type from the list of overview items """
+    for od in overview_details:
+        overview_item_key = unicode(od[0].text.lower())
+        if (overview_item_key == conf.HOUSE_TYPE_OVERVIEW_ITEM):
+            house_type = od[1].text.strip().lower()
+            return house_type
+
 def insert_database_rows(rows, db_name):
     """Insert any meaningful data from the given list of DatabaseRow
     objects into the database """
@@ -104,7 +114,8 @@ def insert_database_rows(rows, db_name):
                            "'%s'" % row.get_oven_type(),
                            "'%s'" % row.get_lat(),
                            "'%s'" % row.get_lng(),
-                           "'%s'" % row.get_floor_size()])
+                           "'%s'" % row.get_floor_size(),
+                           "'%s'" % row.get_house_type()])
         query = "REPLACE INTO %s VALUES(%s)" % (conf.LISTINGS_TABLE, values)
         db.execute_query(db_name, query)
         

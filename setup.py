@@ -10,11 +10,11 @@ def read(fname):
 
 setup(
     name = "good_ovening",
-    version = "0.0.3",
+    version = "0.0.4",
     author = "Matthew Pierce",
     author_email = "piercemattd@gmail.com",
     description = (""" A web-crawler for extracting oven types and locations from
-    listings at http://m.finn.no """),
+    listings at http://www.finn.no """),
     license = "BSD",
     keywords = "web-crawler oven Norway",
     url = "http://packages.python.org/good_ovening",
