@@ -2,7 +2,7 @@
 
 # Required crawler configuration items
 NAME = "fireplace_crawler"
-DOMAIN = "m.finn.no"
+DOMAIN = "www.finn.no"
 ALLOWED_DOMAINS = [DOMAIN]
 START_URL_POSTFIXES = ["/realestate/homes/search.html",
                        "/realestate/newbuildings/search.html",

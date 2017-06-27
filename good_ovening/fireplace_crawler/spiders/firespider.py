@@ -18,9 +18,9 @@ class FireSpider(Spider):
     # Configure the name and domain of the Spider
     name = sconf.NAME
     allowed_domains = sconf.ALLOWED_DOMAINS
-    # start_urls = sconf.START_URLS
+    start_urls = sconf.START_URLS
     # start_urls = ["https://m.finn.no/realestate/lettings/ad.html?finnkode=78901109"]
-    start_urls = ["https://m.finn.no/realestate/homes/search.html"]
+    # start_urls = ["https://m.finn.no/realestate/homes/search.html"]
     
     def parse(self, response):
         """Defer to the correct function for handling the page depending on it's type """
